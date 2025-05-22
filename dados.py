@@ -1,3 +1,5 @@
+# Lista de usuários cadastrados no sistema
+# Cada usuário é um dicionário com nome, cpf, email, celular e senha
 _dados_de_usuarios = [
     {
         "nome": "Lucas Barros",
@@ -15,6 +17,8 @@ _dados_de_usuarios = [
     }
 ]
 
+# Dicionário que armazena os serviços de cada usuário (resultados, receitas, agendas)
+# A chave é o email do usuário
 _dados_usuarios_servicos = {
     "lucas.barros@gmail.com": {
         "resultados": [

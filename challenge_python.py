@@ -1,4 +1,5 @@
-# Content of 'main_app.py' (modified from input_file_1.py)
+# Arquivo principal do sistema do Portal do Paciente HC
+# Importa os módulos necessários
 from dados import _dados_de_usuarios, _dados_usuarios_servicos
 from cadastro_e_login import cadastrar_usuario, fazer_login
 import validacoes
@@ -6,13 +7,16 @@ import validacoes
 # Lista para armazenar os dados dos usuários (referência aos dados do módulo 'dados')
 lista_de_usuarios = _dados_de_usuarios
 
-# Global state for simulated Interactive Guide Mode
+# Variável global para controlar o modo guia interativo
 modo_guia_interativo_ativo = False
 
 
+# Função para exibir o menu principal do sistema
+# Mostra opções de cadastro, login, ajuda e sair
+# Também exibe dicas se o modo guia estiver ativo
 # Menu Principal
 def mostrar_menu_principal():
-    global modo_guia_interativo_ativo  # To display guide status
+    global modo_guia_interativo_ativo  # Para exibir status do guia
     print("\n" + "=" * 42)
     print("    BEM-VINDO AO PORTAL DO PACIENTE HC      ")
     if modo_guia_interativo_ativo:
@@ -32,7 +36,7 @@ def mostrar_menu_principal():
     escolha = input(prompt_menu_principal)
 
     if modo_guia_interativo_ativo and escolha:
-        # Basic guidance for known options
+        # Dicas básicas para cada opção
         if escolha == '1':
             print("[Guia]: Você escolheu 'Cadastro'. Prepare seu CPF, email e celular.")
         elif escolha == '2':
@@ -44,6 +48,8 @@ def mostrar_menu_principal():
     return escolha
 
 
+# Função para exibir o menu do usuário após login
+# Permite acessar resultados, receitas, agendas, dados, ajuda, etc.
 # Menu Usuário
 def menu_usuario_logado(usuario_logado):
     global modo_guia_interativo_ativo
@@ -62,7 +68,7 @@ def menu_usuario_logado(usuario_logado):
         print("5. Minhas Agendas (Consultas/Exames Marcados)")
         print("6. Informações sobre Teleconsulta")
         print("7. Meus Dados Cadastrais")
-        print("8. Ajuda e Suporte ao Usuário")  # Renamed
+        print("8. Ajuda e Suporte ao Usuário")  # Renomeado
         print("9. Sair (Logout)")
         print("=" * 46)
 
@@ -71,10 +77,12 @@ def menu_usuario_logado(usuario_logado):
             prompt_text = "[Guia] Digite o número da opção desejada e pressione Enter: "
         opcao_login = input(prompt_text)
 
+        # Cada bloco abaixo trata uma opção do menu do usuário
         if opcao_login == '3':  # Meus Resultados
             print(f"\n--- Meus Resultados de Exames: {nome_usuario} ---")
             if modo_guia_interativo_ativo:
                 print("[Guia]: Aqui você pode ver os resultados dos seus exames.")
+            # Exibe resultados se houver
             if email_usuario in _dados_usuarios_servicos and _dados_usuarios_servicos[email_usuario]["resultados"]:
                 for resultado in _dados_usuarios_servicos[email_usuario]["resultados"]:
                     print(f"- {resultado}")
@@ -86,6 +94,7 @@ def menu_usuario_logado(usuario_logado):
             print(f"\n--- Minhas Receitas Médicas: {nome_usuario} ---")
             if modo_guia_interativo_ativo:
                 print("[Guia]: Aqui você encontra suas receitas médicas.")
+            # Exibe receitas se houver
             if email_usuario in _dados_usuarios_servicos and _dados_usuarios_servicos[email_usuario]["receitas"]:
                 for receita in _dados_usuarios_servicos[email_usuario]["receitas"]:
                     print(f"- {receita}")
@@ -97,13 +106,14 @@ def menu_usuario_logado(usuario_logado):
             print(f"\n--- Minhas Agendas (Consultas/Exames Marcados): {nome_usuario} ---")
             if modo_guia_interativo_ativo:
                 print("[Guia]: Veja aqui seus próximos agendamentos.")
+            # Exibe agendas se houver
             if email_usuario in _dados_usuarios_servicos and _dados_usuarios_servicos[email_usuario]["agendas"]:
                 for agenda in _dados_usuarios_servicos[email_usuario]["agendas"]:
                     print(f"- {agenda}")
             else:
                 print("Você não possui agendamentos cadastrados no momento.")
 
-            # Simulação de Lembrete do Telegram
+            # Simulação de lembrete via Telegram
             if usuario_logado.get('telegram_notifications', False):
                 print(
                     f"\n[Lembrete Simulado via Telegram]: Olá, {nome_usuario.split(' ')[0]}! Como você autorizou, enviaremos lembretes")
@@ -133,7 +143,7 @@ def menu_usuario_logado(usuario_logado):
                 print("    - Ajuda: Se sentir dificuldade, não hesite em pedir ajuda a alguém de confiança")
                 print("           ou contatar nosso suporte (veja Opção 8. Ajuda e Suporte).")
 
-            tem_agenda_teleconsulta = False  # Simular verificação de teleconsultas
+            tem_agenda_teleconsulta = False  # Simula verificação de teleconsultas
             if email_usuario in _dados_usuarios_servicos and _dados_usuarios_servicos[email_usuario]["agendas"]:
                 for agenda_item in _dados_usuarios_servicos[email_usuario]["agendas"]:
                     if "teleconsulta" in agenda_item.lower() or "online" in agenda_item.lower():
@@ -152,9 +162,7 @@ def menu_usuario_logado(usuario_logado):
             input("\nPressione Enter para voltar ao menu do usuário...")
 
         elif opcao_login == '7':  # Meus Dados
-            # (Existing 'Meus Dados' logic can be kept, with minor prompt adjustments if guide mode is on)
-            # For brevity, I'm not re-listing the entire 'Meus Dados' sub-menu here,
-            # but one could add '[Guia]:' prefixes to its prompts if modo_guia_interativo_ativo is True.
+            # Exibe e permite alterar dados cadastrais do usuário
             print("\n--- Meus Dados Cadastrais ---")
             if modo_guia_interativo_ativo:
                 print("[Guia]: Aqui você pode ver e atualizar suas informações pessoais.")
@@ -261,7 +269,7 @@ def menu_usuario_logado(usuario_logado):
                 input("\nPressione Enter para continuar...")
 
 
-        elif opcao_login == '8':  # Ajuda e Suporte (Logged-in User)
+        elif opcao_login == '8':  # Ajuda e Suporte (Usuário logado)
             while True:
                 print("\n╔══════════════════════════════════════════════╗")
                 print("║            AJUDA E SUPORTE AO USUÁRIO        ║")
@@ -363,6 +371,8 @@ def menu_usuario_logado(usuario_logado):
                 print("[Guia]: Certifique-se de digitar apenas o número da opção desejada (ex: 3, 4, 5...).")
 
 
+# Função para exibir o menu de ajuda principal (antes do login)
+# Mostra informações sobre cadastro, login, sistema e suporte
 # Função para o Menu de Ajuda Principal (Antes do Login)
 def mostrar_menu_ajuda_principal():
     while True:
@@ -433,6 +443,7 @@ def mostrar_menu_ajuda_principal():
 
 
 # Loop principal do sistema
+# Executa o menu principal e direciona para as funções conforme a escolha do usuário
 if __name__ == "__main__":
     while True:
         opcao_principal = mostrar_menu_principal()
