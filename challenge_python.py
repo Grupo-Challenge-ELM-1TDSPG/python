@@ -1,5 +1,3 @@
-# Arquivo principal do sistema do Portal do Paciente HC
-# Importa os módulos necessários
 from dados import _dados_de_usuarios, _dados_usuarios_servicos
 from cadastro_e_login import cadastrar_usuario, fazer_login
 import validacoes
