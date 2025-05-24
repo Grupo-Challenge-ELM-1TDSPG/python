@@ -180,7 +180,7 @@ def menu_usuario_logado(usuario_logado):
                 print("\n╔══════════════════════════════════════════════╗")
                 print(f"║           MEUS DADOS: {nome_usuario[:20]:<20}   ║")
                 if modo_guia_interativo_ativo:
-                    print("║         ⭐ Modo Guia Interativo ATIVO ⭐        ║")
+                    print("║         ⭐ Modo Guia Interativo ATIVO ⭐      ║")
                 print("╚══════════════════════════════════════════════╝")
                 print(f"1. Nome: {usuario_logado['nome']}")
                 print(f"2. CPF: {usuario_logado['cpf']} (Não pode ser alterado)")
@@ -274,7 +274,7 @@ def menu_usuario_logado(usuario_logado):
                 print("\n╔══════════════════════════════════════════════╗")
                 print("║            AJUDA E SUPORTE AO USUÁRIO        ║")
                 if modo_guia_interativo_ativo:
-                    print("║         ⭐ Modo Guia Interativo ATIVO ⭐        ║")
+                    print("║         ⭐ Modo Guia Interativo ATIVO ⭐     ║")
                 print("╚══════════════════════════════════════════════╝\n")
                 print("Olá! Esta é a sua Central de Ajuda e Suporte.")
                 print("Selecione um tópico para saber mais:")
@@ -349,8 +349,7 @@ def menu_usuario_logado(usuario_logado):
                     modo_guia_interativo_ativo = not modo_guia_interativo_ativo
                     if modo_guia_interativo_ativo:
                         print("\n⭐ Modo Guia Interativo ATIVADO! ⭐")
-                        print(
-                            "   A partir de agora, você verá mais dicas e explicações ([Guia]: ...) ao usar o sistema.")
+                        print("   A partir de agora, você verá mais dicas e explicações ([Guia]: ...) ao usar o sistema.")
                         print("   Isso pode ajudar a entender melhor cada passo.")
                     else:
                         print("\nModo Guia Interativo DESATIVADO.")
